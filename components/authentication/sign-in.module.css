@@ -1,0 +1,160 @@
+.wrapper {
+  width: 100%;
+  min-width: 400px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top,
+.bottom {
+  width: 100%;
+  height: 5vh;
+  min-height: 40px;
+  position: relative;
+
+  background-color: var(--fifth-color);
+  overflow: hidden;
+}
+
+.decorative-text {
+  position: absolute;
+  color: transparent;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite, marquee 15s reverse forwards;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  font-size: clamp(36px, 5vh, 48px);
+  font-weight: 700;
+  margin: 0;
+}
+
+.top .decorative-text {
+  animation: gradient 15s ease infinite, marquee 30s alternate infinite linear;
+}
+
+.bottom .decorative-text {
+  animation: gradient 15s ease infinite,
+    marquee 30s alternate-reverse infinite linear;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -50%;
+  }
+}
+
+.signin-body {
+  width: 100%;
+  height: 90vh;
+  min-height: 600px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.signin-body h1 {
+  text-align: center;
+  margin: 0 20px;
+}
+
+.signin-form {
+  width: 80%;
+  height: auto;
+  margin: 30px 30px 0 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+
+.input-block {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-group div {
+  display: flex;
+  align-items: center;
+}
+
+.input-group input {
+  padding: 0 10px 0 10px;
+  margin-left: 10px;
+  height: 30px;
+  border-radius: 15px;
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signin-button,
+.register-button .test-acc-button {
+  width: 150px;
+}
+
+.signin-button {
+  background-color: var(--primary-color);
+}
+
+.test-acc-button {
+  background-color: var(--third-color);
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 900px) {
+  .input-block {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .signin-form {
+    align-items: center;
+  }
+
+  .input-group div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .input-group input {
+    margin-left: 0;
+  }
+}

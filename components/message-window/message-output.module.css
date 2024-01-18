@@ -1,0 +1,7 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  padding: 10px 20px 0 20px;
+  box-sizing: border-box;
+}

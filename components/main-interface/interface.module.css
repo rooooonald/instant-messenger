@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.conversation {
+  flex: 3;
+  height: 100%;
+  animation: fadeIn 1s forwards normal ease;
+}
+
+.message {
+  flex: 7;
+  height: 100%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

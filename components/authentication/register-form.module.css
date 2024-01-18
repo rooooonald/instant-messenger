@@ -1,0 +1,93 @@
+.wrapper {
+  width: 700px;
+  height: 100%;
+  display: flex;
+  overflow-y: scroll;
+}
+
+.intro {
+  padding: 20px;
+  flex: 3;
+}
+
+.message-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  width: 80%;
+  height: 70px;
+  border-radius: 20px;
+  display: flex;
+
+  margin-top: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.message1 {
+  align-self: self-end;
+  background-color: var(--primary-color);
+}
+
+.message2 {
+  align-self: self-start;
+  background-color: var(--secondary-color);
+}
+
+.message3 {
+  align-self: self-start;
+  background-color: var(--fourth-color);
+}
+
+.expired {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  opacity: 0.3;
+}
+
+.form {
+  flex: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.input-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-block input {
+  padding: 0 10px 0 10px;
+}
+
+.submit-button {
+  width: 150px;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+@media only screen and (max-width: 768px) {
+  .wrapper {
+    width: 90vw;
+    flex-direction: column;
+  }
+
+  .form {
+    margin-bottom: 30px;
+  }
+}

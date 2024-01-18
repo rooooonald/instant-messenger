@@ -1,0 +1,42 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+}
+
+.message-window {
+  width: calc(100% - 32px);
+  height: 100%;
+  margin-left: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title-container {
+  width: 32px;
+  position: relative;
+}
+
+.title {
+  position: absolute;
+  white-space: nowrap;
+  margin-top: 20px;
+
+  transform-origin: top left;
+  font-size: 32px;
+  font-weight: 700;
+  -webkit-text-stroke: 1px;
+  -webkit-text-fill-color: transparent;
+}
+
+.participants-list-btn svg {
+  transition: transform 0.5s;
+}
+
+.participants-list-btn svg:hover {
+  transform: scale(1.2);
+}

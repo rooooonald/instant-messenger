@@ -1,0 +1,78 @@
+:root {
+  --primary-color: #ee7752;
+  --secondary-color: #7a00fc;
+  --third-color: #e73c7e;
+  --fourth-color: #23a6d5;
+  --fifth-color: #fff;
+  --sixth-color: #23d5ab;
+  --error-color: #d77fa1;
+}
+
+body {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+
+  height: 100vh;
+  color: var(--fifth-color);
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+button {
+  height: 30px;
+  border-radius: 15px;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  background-color: var(--secondary-color);
+  font-family: inherit;
+  font-weight: 700;
+  color: white;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input {
+  height: 30px;
+  border-radius: 15px;
+}
+
+input,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  border: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: inherit;
+}
+
+input:focus,
+button:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
