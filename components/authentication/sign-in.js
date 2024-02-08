@@ -2,6 +2,7 @@
 
 import { useContext, useState } from "react";
 import useInput from "@/hook/use-input";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { AuthContext } from "@/store/auth-context";
 
@@ -10,13 +11,10 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 import Modal from "../ui/modal";
 import RegisterForm from "./register-form";
+import TestAccInfo from "./test-acc-info";
 
 import styles from "./sign-in.module.css";
-import { LoginConvoIcon } from "../ui/svg-lib";
-import { LazyMotion, domAnimation } from "framer-motion";
-import { AnimatePresence, m } from "framer-motion";
-import TestAccInfo from "./test-acc-info";
-import Image from "next/image";
+import { AnimatePresence, m, LazyMotion, domAnimation } from "framer-motion";
 
 export default function SignIn() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -67,7 +65,7 @@ export default function SignIn() {
       });
   };
 
-  if (authCtx.userEmail) {
+  if (authCtx.userId) {
     return redirect("/messenger");
   }
   const formIsValid = emailIsValid && passwordIsValid;

@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 
 import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  onSnapshot,
+  doc,
+} from "firebase/firestore";
 
 import styles from "./conversation-thumbnail.module.css";
 import { m } from "framer-motion";
@@ -19,20 +26,23 @@ export default function ConversationThumbnail({
   const [isLastMessageExpired, setIsLastMessageExpired] = useState(false);
 
   useEffect(() => {
-    const extractUsername = async () => {
-      const q = query(
-        collection(db, "users"),
-        where("email", "==", lastMessage.sender)
-      );
+    // const extractUsername = async () => {
+    //   const q = query(
+    //     collection(db, "users"),
+    //     where("email", "==", lastMessage.sender)
+    //   );
 
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        const foundUser = doc.data();
+    //   const querySnapshot = await getDocs(q);
+    //   querySnapshot.forEach((doc) => {
+    //     const foundUser = doc.data();
+    //     setSenderUsername(foundUser.username);
+    //   });
+    // };
+    if (lastMessage) {
+      onSnapshot(doc(db, "users", lastMessage.sender), (userDoc) => {
+        const foundUser = userDoc.data();
         setSenderUsername(foundUser.username);
       });
-    };
-    if (lastMessage) {
-      extractUsername();
     }
   }, [lastMessage]);
 

@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useInput from "@/hook/use-input";
 import { useRouter } from "next/navigation";
 
 import { db, auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+
+import { AuthContext } from "@/store/auth-context";
 
 import styles from "./register-form.module.css";
 import { m } from "framer-motion";
@@ -20,6 +22,8 @@ export default function RegisterForm({
 
   const [isExpired, setIsExpired] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsExpired(true), 3000);
@@ -69,6 +73,10 @@ export default function RegisterForm({
           email: user.email,
           username,
         });
+
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const foundUser = userDoc.data();
+        authCtx.changeUserHandler({ userId: user.uid, ...foundUser });
 
         onClose();
         router.push("/messenger");

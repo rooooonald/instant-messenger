@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import { useState, useEffect } from "react";
 
 import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { onSnapshot, doc } from "firebase/firestore";
 
 import styles from "./notification.module.css";
 import { m } from "framer-motion";
@@ -16,17 +16,22 @@ export default function Notification({
   const [senderUsername, setSenderUsername] = useState("");
 
   useEffect(() => {
-    const extractUsername = async () => {
-      const q = query(collection(db, "users"), where("email", "==", sender));
+    // const extractUsername = async () => {
+    //   const q = query(collection(db, "users"), where("email", "==", sender));
 
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        const foundUser = doc.data();
-        setSenderUsername(foundUser.username);
-      });
-    };
+    //   const querySnapshot = await getDocs(q);
+    //   querySnapshot.forEach((doc) => {
+    //     const foundUser = doc.data();
+    //     setSenderUsername(foundUser.username);
+    //   });
+    // };
 
-    extractUsername();
+    // extractUsername();
+
+    onSnapshot(doc(db, "users", sender), (userDoc) => {
+      const foundUser = userDoc.data();
+      setSenderUsername(foundUser.username);
+    });
   }, []);
 
   return ReactDOM.createPortal(

@@ -35,7 +35,7 @@ export default function MessageInput({ id, onSend }) {
 
     const sendTime = Date.now();
     onSend(id, {
-      sender: authCtx.userEmail,
+      sender: authCtx.userId,
       content: enteredMessage,
       sendTime,
       timeAllowed: timeAllowed ? +timeAllowed * 1000 : 10000,

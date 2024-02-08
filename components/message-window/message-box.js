@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/store/auth-context";
 
 import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 
 import styles from "./message-box.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,14 +33,19 @@ export default function MessageBox({ message }) {
 
   useEffect(() => {
     const extractUsername = async () => {
-      const q = query(
-        collection(db, "users"),
-        where("email", "==", message.sender)
-      );
+      // const q = query(
+      //   collection(db, "users"),
+      //   where("email", "==", message.sender)
+      // );
 
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        const foundUser = doc.data();
+      // const querySnapshot = await getDocs(q);
+      // querySnapshot.forEach((doc) => {
+      //   const foundUser = doc.data();
+      //   setSenderUsername(foundUser.username);
+      // });
+
+      onSnapshot(doc(db, "users", message.sender), (userDoc) => {
+        const foundUser = userDoc.data();
         setSenderUsername(foundUser.username);
       });
     };
@@ -64,7 +69,7 @@ export default function MessageBox({ message }) {
     messageContent = (
       <>
         <div className={styles.message}>
-          {message.sender !== authCtx.userEmail && (
+          {message.sender !== authCtx.userId && (
             <div className={styles.name}>{senderUsername}:</div>
           )}
           <div>{message.content}</div>
@@ -79,7 +84,7 @@ export default function MessageBox({ message }) {
       transition={{ duration: 1, type: "spring", stiffness: 500 }}
       whileHover={{ scale: 1.05 }}
       className={`${styles.wrapper} ${
-        authCtx.userEmail === message.sender
+        authCtx.userId === message.sender
           ? styles["your-message"]
           : styles["others-message"]
       }`}

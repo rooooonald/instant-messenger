@@ -5,14 +5,7 @@ import { AuthContext } from "@/store/auth-context";
 
 import { db, auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
-import {
-  doc,
-  updateDoc,
-  collection,
-  query,
-  where,
-  onSnapshot,
-} from "firebase/firestore";
+import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 
 import NewConversation from "./new-conversation";
 
@@ -36,16 +29,31 @@ export default function ConversationNav({ onAddConversation }) {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    if (authCtx.userEmail) {
-      const q = query(
-        collection(db, "users"),
-        where("email", "==", authCtx.userEmail)
-      );
-      onSnapshot(q, (querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const foundUser = doc.data();
-          setCurrentUsername(foundUser.username);
-        });
+    // if (authCtx.userEmail) {
+    //   const q = query(
+    //     collection(db, "users"),
+    //     where("email", "==", authCtx.userEmail)
+    //   );
+    //   onSnapshot(q, (querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //       const foundUser = doc.data();
+    //       setCurrentUsername(foundUser.username);
+    //     });
+    //   });
+    // }
+
+    // const extractUsername = async () => {
+
+    //   console.log(authCtx);
+    //   const userDoc = await getDoc(doc(db, "users", authCtx.userId));
+    //   const foundUser = userDoc.data();
+    //   setCurrentUsername(foundUser.username);
+    // };
+
+    if (authCtx.userId) {
+      onSnapshot(doc(db, "users", authCtx.userId), (userDoc) => {
+        const foundUser = userDoc.data();
+        setCurrentUsername(foundUser.username);
       });
     }
   }, [authCtx]);
@@ -81,7 +89,7 @@ export default function ConversationNav({ onAddConversation }) {
       return;
     }
 
-    const userRef = doc(db, "users", authCtx.id);
+    const userRef = doc(db, "users", authCtx.userId);
     await updateDoc(userRef, {
       username,
     });
