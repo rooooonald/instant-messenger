@@ -28,6 +28,12 @@
   flex-direction: column;
 }
 
+.message-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
 .sendtime {
   align-self: self-end;
   font-size: 10px;
