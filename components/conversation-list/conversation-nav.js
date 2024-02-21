@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import useInput from "@/hook/use-input";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { AuthContext } from "@/store/auth-context";
 
 import { db, auth } from "@/lib/firebase";
@@ -29,27 +29,6 @@ export default function ConversationNav({ onAddConversation }) {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    // if (authCtx.userEmail) {
-    //   const q = query(
-    //     collection(db, "users"),
-    //     where("email", "==", authCtx.userEmail)
-    //   );
-    //   onSnapshot(q, (querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //       const foundUser = doc.data();
-    //       setCurrentUsername(foundUser.username);
-    //     });
-    //   });
-    // }
-
-    // const extractUsername = async () => {
-
-    //   console.log(authCtx);
-    //   const userDoc = await getDoc(doc(db, "users", authCtx.userId));
-    //   const foundUser = userDoc.data();
-    //   setCurrentUsername(foundUser.username);
-    // };
-
     if (authCtx.userId) {
       onSnapshot(doc(db, "users", authCtx.userId), (userDoc) => {
         const foundUser = userDoc.data();
@@ -74,12 +53,13 @@ export default function ConversationNav({ onAddConversation }) {
 
   const signOutHandler = () => {
     signOut(auth)
-      .then(() => {
-        router.push("/");
-      })
+      .then(() => {})
       .catch((error) => {
         console.log(error);
+        return;
       });
+
+    redirect("/");
   };
 
   const changeUsernameHandler = async () => {
@@ -108,7 +88,7 @@ export default function ConversationNav({ onAddConversation }) {
     <m.div
       whileHover={{
         x: 10,
-        scale: 1.05,
+        // scale: 1.05,
       }}
       transition={{ duration: 0.5 }}
       className={styles.wrapper}
@@ -130,7 +110,7 @@ export default function ConversationNav({ onAddConversation }) {
         />
       ) : (
         <m.h1
-          whileHover={{ scale: 0.8, fontWeight: 400 }}
+          whileHover={{ fontWeight: 400 }}
           transition={{ duration: 1 }}
           className={styles.username}
           onClick={() => setIsChangingUsername(true)}

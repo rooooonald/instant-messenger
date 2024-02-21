@@ -7,9 +7,8 @@
 }
 
 .intro {
-  padding: 20px;
   width: 400px;
-  box-sizing: border-box;
+  padding: 20px;
 }
 
 .message-list {
@@ -22,12 +21,12 @@
 .message {
   width: 70%;
   height: 70px;
-  border-radius: 20px;
-  display: flex;
-
   margin-top: 10px;
   padding: 10px;
-  box-sizing: border-box;
+
+  display: flex;
+
+  border-radius: 20px;
 }
 
 .message1 {
@@ -43,12 +42,12 @@
 .form {
   height: 100%;
   padding-top: 30px;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
-  box-sizing: border-box;
 }
 
 .input-block {
@@ -83,7 +82,7 @@
   width: 300px;
   height: 100%;
   padding: 20px;
-  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -100,11 +99,12 @@
 
 .participant-tag {
   height: 30px;
-  box-sizing: border-box;
   padding: 5px 10px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   background-color: var(--fourth-color);
   border-radius: 25px;
 }

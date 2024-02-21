@@ -85,7 +85,7 @@ export default function SignIn() {
           </m.p>
         </div>
         <div className={styles["signin-body"]}>
-          <Image src={"/logo-home.svg"} alt="Logo" width={300} height={300} />
+          <Image src={"/logo-home.svg"} alt="Logo" width={200} height={200} />
           {errorMsg ? (
             <h1>{errorMsg}</h1>
           ) : (

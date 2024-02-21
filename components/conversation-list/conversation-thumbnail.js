@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
 
 import { db } from "@/lib/firebase";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  onSnapshot,
-  doc,
-} from "firebase/firestore";
+import { onSnapshot, doc } from "firebase/firestore";
 
 import styles from "./conversation-thumbnail.module.css";
 import { m } from "framer-motion";
+import { IoImageOutline } from "react-icons/io5";
 
 export default function ConversationThumbnail({
   onSelectConversation,
@@ -26,18 +20,6 @@ export default function ConversationThumbnail({
   const [isLastMessageExpired, setIsLastMessageExpired] = useState(false);
 
   useEffect(() => {
-    // const extractUsername = async () => {
-    //   const q = query(
-    //     collection(db, "users"),
-    //     where("email", "==", lastMessage.sender)
-    //   );
-
-    //   const querySnapshot = await getDocs(q);
-    //   querySnapshot.forEach((doc) => {
-    //     const foundUser = doc.data();
-    //     setSenderUsername(foundUser.username);
-    //   });
-    // };
     if (lastMessage) {
       onSnapshot(doc(db, "users", lastMessage.sender), (userDoc) => {
         const foundUser = userDoc.data();
@@ -99,7 +81,14 @@ export default function ConversationThumbnail({
           Date.now() < lastMessage.timeAllowed + lastMessage.sendTime &&
           !isLastMessageExpired && (
             <div className={styles.lastMessage}>
-              {senderUsername}: {lastMessage.content}
+              <span>{senderUsername}: </span>
+              {lastMessage.isImage ? (
+                <div>
+                  <IoImageOutline /> <em>Image</em>
+                </div>
+              ) : (
+                <p>{lastMessage.content}</p>
+              )}
             </div>
           )}
       </div>

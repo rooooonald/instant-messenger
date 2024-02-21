@@ -1,14 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "@/lib/firebase";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  getDoc,
-  doc,
-} from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
 export const AuthContext = createContext({
   id: "",
@@ -23,18 +16,6 @@ export default function AuthContextProvider({ children }) {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // const q = query(
-        //   collection(db, "users"),
-        //   where("email", "==", user.email)
-        // );
-
-        // const querySnapshot = await getDocs(q);
-        // querySnapshot.forEach((doc) => {
-        //   const foundUser = doc.data();
-
-        //   setUser({ id: doc.id, ...foundUser });
-        // });
-
         const userDoc = await getDoc(doc(db, "users", user.uid));
         const foundUser = userDoc.data();
         setUser({ userId: user.uid, ...foundUser });

@@ -1,30 +1,63 @@
 .wrapper {
   width: 80%;
   min-height: 75px;
-  box-sizing: border-box;
   margin: 10px 20px;
   padding: 10px;
-  background-color: transparent;
-
-  cursor: pointer;
-  border-radius: 10px;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+
+  background-color: transparent;
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.conversation {
+  width: calc(100% - 35px);
+}
+
+.lastMessage {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  font-size: 1rem;
+}
+
+.lastMessage p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lastMessage div {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .status {
-  width: 20%;
-  padding: 10px;
+  width: 25px;
+  height: 25px;
+  margin: 0 5px;
+
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
 .active {
-  width: 25px;
-  height: 25px;
+  width: 100%;
+  height: 100%;
   position: relative;
 }
 
@@ -33,22 +66,24 @@
   position: absolute;
   width: 100%;
   height: 100%;
+
   transform: scale(0);
   background-color: var(--fifth-color);
-  border-radius: 25px;
+  border-radius: 50%;
   animation: wave-inner 1s infinite ease-in-out;
 }
 
 .active::after {
   content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+
   transform: scale(0);
   background-color: transparent;
-  box-sizing: border-box;
-  border-radius: 25px;
+  border-radius: 50%;
   border: 3px solid var(--fifth-color);
+
   animation: wave-outer 1s infinite normal ease-in-out;
 }
 
@@ -72,22 +107,4 @@
     transform: scale(1);
     opacity: 0;
   }
-}
-
-.conversation {
-  width: 80%;
-}
-
-.lastMessage {
-  font-size: 14px;
-  width: 100%;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.title {
-  font-weight: 700;
-  margin-bottom: 10px;
 }

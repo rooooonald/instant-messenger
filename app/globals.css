@@ -8,6 +8,10 @@
   --error-color: #d77fa1;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
@@ -19,6 +23,11 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+}
+
+p {
+  margin: 0;
+  padding: 0;
 }
 
 button {

@@ -5,7 +5,7 @@ import { Urbanist } from "next/font/google";
 const urbanist = Urbanist({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "What's Said Here. Forgotten Here.",
+  title: "Forgotten Messenger",
   icons: { icon: "/logo.svg" },
 };
 

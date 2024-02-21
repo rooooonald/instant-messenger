@@ -4,6 +4,8 @@ import { AuthContext } from "@/store/auth-context";
 import { db } from "@/lib/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 
+import Modal from "../ui/modal";
+
 import styles from "./message-box.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBomb } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +15,7 @@ export default function MessageBox({ message }) {
   const authCtx = useContext(AuthContext);
   const [senderUsername, setSenderUsername] = useState("");
   const [isExpired, setIsExpired] = useState(false);
+  const [enlargeImage, setEnlargeImage] = useState(false);
 
   useEffect(() => {
     if (Date.now() < message.timeAllowed + message.sendTime) {
@@ -72,7 +75,29 @@ export default function MessageBox({ message }) {
           {message.sender !== authCtx.userId && (
             <div className={styles.name}>{senderUsername}:</div>
           )}
-          <div>{message.content}</div>
+          {message.isImage ? (
+            <>
+              <img
+                src={`${message.content}`}
+                alt="conversation-image"
+                className={styles["message-img"]}
+                onClick={() => setEnlargeImage(true)}
+              />
+              {enlargeImage && (
+                <Modal onClose={() => setEnlargeImage(false)}>
+                  <div className={styles["modal-image-box"]}>
+                    <img
+                      src={`${message.content}`}
+                      alt="conversation-image"
+                      className={styles["modal-img"]}
+                    />
+                  </div>
+                </Modal>
+              )}
+            </>
+          ) : (
+            <div>{message.content}</div>
+          )}
         </div>
         <div className={styles.sendtime}>{displayTime}</div>
       </>

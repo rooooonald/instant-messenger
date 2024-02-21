@@ -1,6 +1,8 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
+import { redirect } from "next/navigation";
+
 import {
   collection,
   addDoc,
@@ -11,8 +13,13 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
+import {
+  getDownloadURL,
+  ref as storageRef,
+  uploadString,
+} from "firebase/storage";
 
-import { db } from "@/lib/firebase";
+import { db, storage } from "@/lib/firebase";
 import { AuthContext } from "@/store/auth-context";
 import { NotificationContext } from "@/store/notification-context";
 
@@ -21,6 +28,7 @@ import MessageWindow from "../message-window/message-window";
 import Loading from "../loading/loading";
 import Starting from "../message-window/starting";
 import Notification from "../ui/notification";
+import { v4 as uuidv4 } from "uuid";
 
 import styles from "./interface.module.css";
 import { AnimatePresence } from "framer-motion";
@@ -33,6 +41,7 @@ export default function MessengerInterface() {
 
   const authCtx = useContext(AuthContext);
   const notificationCtx = useContext(NotificationContext);
+  const notification = notificationCtx.notification;
 
   useEffect(() => {
     if (conversationList) {
@@ -64,6 +73,7 @@ export default function MessengerInterface() {
             notificationCtx.addNotification({
               id: change.doc.id,
               title: updatedConversation.title,
+              isImage: lastMessage.isImage,
               sender: lastMessage.sender,
               content: lastMessage.content,
             });
@@ -90,7 +100,7 @@ export default function MessengerInterface() {
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [notificationCtx.notification]);
+  }, [notification]);
 
   // Adding new conversation
 
@@ -112,16 +122,40 @@ export default function MessengerInterface() {
   async function sendMessageHandler(conversationId, newMessage) {
     const conversationRef = doc(db, "conversation", conversationId);
 
+    let photoUrl;
+    if (newMessage.isImage) {
+      photoUrl = await uploadFile(newMessage.content);
+      newMessage.content = photoUrl;
+    }
+
     await updateDoc(conversationRef, {
       lastUpdate: Date.now(),
       messages: arrayUnion(newMessage),
     });
   }
 
+  // Uploading photo
+
+  const uploadFile = async (imgAfterCrop) => {
+    if (imgAfterCrop === null) {
+      return;
+    }
+    const imageRef = storageRef(storage, `messages/${uuidv4()}`);
+
+    const res = await uploadString(imageRef, imgAfterCrop, "data_url");
+    const url = await getDownloadURL(res.ref);
+
+    return url;
+  };
+
   // Selecting conversation
 
   function selectConversationHandler(conversationId) {
     setCurrConversationId(conversationId);
+  }
+
+  if (!authCtx.userId) {
+    return redirect("/");
   }
 
   if (!conversationList) {
@@ -152,15 +186,16 @@ export default function MessengerInterface() {
           )}
         </div>
         <AnimatePresence>
-          {notificationCtx.notification &&
-            notificationCtx.notification.id !== currConversationId &&
-            notificationCtx.notification.sender !== authCtx.userEmail && (
+          {notification &&
+            notification.id !== currConversationId &&
+            notification.sender !== authCtx.userEmail && (
               <Notification
-                title={notificationCtx.notification.title}
-                sender={notificationCtx.notification.sender}
-                content={notificationCtx.notification.content}
+                title={notification.title}
+                sender={notification.sender}
+                content={notification.content}
+                isImage={notification.isImage}
                 onSelectConversation={() => {
-                  selectConversationHandler(notificationCtx.notification.id);
+                  selectConversationHandler(notification.id);
                   notificationCtx.removeNotification();
                 }}
               />

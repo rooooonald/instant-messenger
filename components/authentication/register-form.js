@@ -50,7 +50,7 @@ export default function RegisterForm({
     hasError: usernameHasError,
     valueChangeHandler: usernameChangeHandler,
     blurHandler: usernameBlurHandler,
-  } = useInput((value) => value.trim().length !== 0);
+  } = useInput((value) => value.trim().length !== 0 && value.length <= 12);
 
   const {
     value: password,
