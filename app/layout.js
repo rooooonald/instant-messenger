@@ -2,7 +2,12 @@ import ContextWrapper from "@/components/main-interface/context-wrapper";
 import "./globals.css";
 import { Urbanist } from "next/font/google";
 
-const urbanist = Urbanist({ subsets: ["latin"] });
+const urbanist = Urbanist({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["100", "400", "700"],
+  variable: "--font-urbanist",
+});
 
 export const metadata = {
   title: "Forgotten Messenger",
