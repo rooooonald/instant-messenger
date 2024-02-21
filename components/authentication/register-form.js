@@ -37,8 +37,6 @@ export default function RegisterForm({
     hasError: emailHasError,
     valueChangeHandler: emailChangeHandler,
     blurHandler: emailBlurHandler,
-    resetHandler: emailResetHandler,
-    isTouched: emailIsTouched,
   } = useInput(
     (value) => value.trim().length !== 0 && value.includes("@"),
     inputtedEmail

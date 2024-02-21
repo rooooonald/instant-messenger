@@ -25,7 +25,6 @@ import { NotificationContext } from "@/store/notification-context";
 
 import ConversationList from "../conversation-list/conversation-list";
 import MessageWindow from "../message-window/message-window";
-import Loading from "../loading/loading";
 import Starting from "../message-window/starting";
 import Notification from "../ui/notification";
 import { v4 as uuidv4 } from "uuid";
@@ -156,10 +155,6 @@ export default function MessengerInterface() {
 
   if (!authCtx.userId) {
     return redirect("/");
-  }
-
-  if (!conversationList) {
-    return <Loading />;
   }
 
   return (

@@ -109,18 +109,16 @@ export default function ConversationNav({ onAddConversation }) {
           onKeyDown={keyDownHandler}
         />
       ) : (
-        <m.h1
-          whileHover={{ fontWeight: 400 }}
-          transition={{ duration: 1 }}
+        <h1
           className={styles.username}
           onClick={() => setIsChangingUsername(true)}
           onMouseOver={() => setShowChangeUsernameInstruction(true)}
           onMouseOut={() => setShowChangeUsernameInstruction(false)}
         >
           {showChangeUsernameInstruction
-            ? "Click to change username."
+            ? "Click to change username"
             : `Welcome, ${currentUsername}!`}
-        </m.h1>
+        </h1>
       )}
 
       <div className={styles["btn-group"]}>

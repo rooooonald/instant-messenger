@@ -29,7 +29,6 @@ export default function SignIn() {
     hasError: emailHasError,
     valueChangeHandler: emailChangeHandler,
     blurHandler: emailBlurHandler,
-    resetHandler: emailResetHandler,
   } = useInput((value) => value.trim().length !== 0 && value.includes("@"));
 
   const {
@@ -38,7 +37,6 @@ export default function SignIn() {
     hasError: passwordHasError,
     valueChangeHandler: passwordChangeHandler,
     blurHandler: passwordBlurHandler,
-    resetHandler: passwordResetHandler,
   } = useInput((value) => value.trim().length !== 0);
 
   const signInHandler = () => {
@@ -46,23 +44,21 @@ export default function SignIn() {
       return;
     }
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {})
-      .catch((error) => {
-        const errorCode = error.code;
-        console.log(error);
-        if (errorCode === "auth/invalid-credential") {
-          setErrorMsg("⚠️ Incorrect Email/Password ... What's wrong with you?");
-        }
+    signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      const errorCode = error.code;
+      console.log(error);
+      if (errorCode === "auth/invalid-credential") {
+        setErrorMsg("⚠️ Incorrect Email/Password ... What's wrong with you?");
+      }
 
-        if (errorCode === "auth/invalid-email") {
-          setErrorMsg("⚠️ Invalid Email! What's wrong with you?");
-        }
+      if (errorCode === "auth/invalid-email") {
+        setErrorMsg("⚠️ Invalid Email! What's wrong with you?");
+      }
 
-        if (errorCode === "auth/missing-password") {
-          setErrorMsg("⚠️ Missing Password! What's wrong with you?");
-        }
-      });
+      if (errorCode === "auth/missing-password") {
+        setErrorMsg("⚠️ Missing Password! What's wrong with you?");
+      }
+    });
   };
 
   if (authCtx.userId) {
@@ -74,16 +70,14 @@ export default function SignIn() {
   return (
     <LazyMotion features={domAnimation}>
       <div className={styles.wrapper}>
-        <div className={styles.top}>
-          <m.p
-            initial={{ opacity: 0.3 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className={styles["decorative-text"]}
-          >
-            {decorativeText}
-          </m.p>
-        </div>
+        <m.div
+          initial={{ y: "-100%" }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+          className={styles.top}
+        >
+          <p className={styles["decorative-text"]}>{decorativeText}</p>
+        </m.div>
         <div className={styles["signin-body"]}>
           <Image src={"/logo-home.svg"} alt="Logo" width={200} height={200} />
           {errorMsg ? (
@@ -207,16 +201,14 @@ export default function SignIn() {
             )}
           </AnimatePresence>
         </div>
-        <div className={styles.bottom}>
-          <m.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, type: "spring" }}
-            className={styles["decorative-text"]}
-          >
-            {decorativeText}
-          </m.p>
-        </div>
+        <m.div
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+          className={styles.bottom}
+        >
+          <p className={styles["decorative-text"]}>{decorativeText}</p>
+        </m.div>
       </div>
     </LazyMotion>
   );

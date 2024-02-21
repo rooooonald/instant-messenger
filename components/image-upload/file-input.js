@@ -6,7 +6,7 @@ import { m } from "framer-motion";
 export default function FileInput({ onImageSelected }) {
   const inputRef = useRef();
 
-  const handleOnChange = (event) => {
+  const onChangeHandler = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
@@ -26,7 +26,7 @@ export default function FileInput({ onImageSelected }) {
         type="file"
         accept="image/*"
         ref={inputRef}
-        onChange={handleOnChange}
+        onChange={onChangeHandler}
         style={{ display: "none" }}
       />
 

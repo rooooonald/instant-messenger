@@ -1,4 +1,4 @@
-import ContextWrapper from "@/components/main-interface/context-wrapper";
+import ContextWrapper from "@/components/context-wrapper";
 import "./globals.css";
 import { Urbanist } from "next/font/google";
 
