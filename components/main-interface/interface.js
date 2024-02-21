@@ -25,7 +25,7 @@ import { NotificationContext } from "@/store/notification-context";
 
 import ConversationList from "../conversation-list/conversation-list";
 import MessageWindow from "../message-window/message-window";
-import Starting from "../message-window/starting";
+import WelcomeScreen from "../message-window/welcome-screen";
 import Notification from "../ui/notification";
 import { v4 as uuidv4 } from "uuid";
 
@@ -153,7 +153,7 @@ export default function MessengerInterface() {
     setCurrConversationId(conversationId);
   }
 
-  if (!authCtx.userId) {
+  if (authCtx.status === "unauthenticated") {
     return redirect("/");
   }
 
@@ -172,7 +172,7 @@ export default function MessengerInterface() {
         </div>
 
         <div className={styles.message}>
-          {!selectedConversation && <Starting />}
+          {!selectedConversation && <WelcomeScreen />}
           {selectedConversation && (
             <MessageWindow
               conversation={selectedConversation}

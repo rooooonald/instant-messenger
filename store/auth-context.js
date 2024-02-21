@@ -7,6 +7,7 @@ export const AuthContext = createContext({
   id: "",
   userEmail: "",
   username: "",
+  status: "",
   changeUserHandler: () => {},
 });
 
@@ -18,9 +19,9 @@ export default function AuthContextProvider({ children }) {
       if (user) {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         const foundUser = userDoc.data();
-        setUser({ userId: user.uid, ...foundUser });
+        setUser({ userId: user.uid, ...foundUser, status: "authenticated" });
       } else {
-        setUser(null);
+        setUser({ status: "unauthenticated" });
       }
     });
   }, []);
@@ -29,6 +30,7 @@ export default function AuthContextProvider({ children }) {
     userId: user?.userId,
     userEmail: user?.email,
     username: user?.username,
+    status: user?.status,
     changeUserHandler: setUser,
   };
 

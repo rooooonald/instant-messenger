@@ -61,7 +61,7 @@ export default function SignIn() {
     });
   };
 
-  if (authCtx.userId) {
+  if (authCtx.status === "authenticated") {
     return redirect("/messenger");
   }
   const formIsValid = emailIsValid && passwordIsValid;

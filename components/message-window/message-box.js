@@ -1,27 +1,27 @@
 import { useContext, useEffect, useState } from "react";
+import Link from "next/link";
 import { AuthContext } from "@/store/auth-context";
 
 import { db } from "@/lib/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 
-import Modal from "../ui/modal";
-
 import styles from "./message-box.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBomb } from "@fortawesome/free-solid-svg-icons";
+import { FaBomb } from "react-icons/fa";
 import { m } from "framer-motion";
 
 export default function MessageBox({ message }) {
-  const authCtx = useContext(AuthContext);
   const [senderUsername, setSenderUsername] = useState("");
   const [isExpired, setIsExpired] = useState(false);
-  const [enlargeImage, setEnlargeImage] = useState(false);
+
+  const { timeAllowed, sendTime, sender, content, isImage } = message;
+
+  const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    if (Date.now() < message.timeAllowed + message.sendTime) {
+    if (Date.now() < timeAllowed + sendTime) {
       const timer = setTimeout(
         () => setIsExpired(true),
-        message.sendTime + message.timeAllowed - Date.now()
+        sendTime + timeAllowed - Date.now()
       );
       return () => {
         clearTimeout(timer);
@@ -36,18 +36,7 @@ export default function MessageBox({ message }) {
 
   useEffect(() => {
     const extractUsername = async () => {
-      // const q = query(
-      //   collection(db, "users"),
-      //   where("email", "==", message.sender)
-      // );
-
-      // const querySnapshot = await getDocs(q);
-      // querySnapshot.forEach((doc) => {
-      //   const foundUser = doc.data();
-      //   setSenderUsername(foundUser.username);
-      // });
-
-      onSnapshot(doc(db, "users", message.sender), (userDoc) => {
+      onSnapshot(doc(db, "users", sender), (userDoc) => {
         const foundUser = userDoc.data();
         setSenderUsername(foundUser.username);
       });
@@ -58,13 +47,15 @@ export default function MessageBox({ message }) {
 
   const displayTime = new Intl.DateTimeFormat("en-CA", {
     timeStyle: "short",
-  }).format(message.sendTime);
+  }).format(sendTime);
+
+  const senderIsYou = authCtx.userId === sender;
 
   let messageContent;
   if (isExpired) {
     messageContent = (
       <div className={styles.expired}>
-        <FontAwesomeIcon icon={faBomb} />
+        <FaBomb />
         <span>Forgotten</span>
       </div>
     );
@@ -72,31 +63,17 @@ export default function MessageBox({ message }) {
     messageContent = (
       <>
         <div className={styles.message}>
-          {message.sender !== authCtx.userId && (
-            <div className={styles.name}>{senderUsername}:</div>
-          )}
-          {message.isImage ? (
-            <>
+          {!senderIsYou && <div className={styles.name}>{senderUsername}:</div>}
+          {isImage ? (
+            <Link href={content} target="_blank">
               <img
-                src={`${message.content}`}
+                src={`${content}`}
                 alt="conversation-image"
                 className={styles["message-img"]}
-                onClick={() => setEnlargeImage(true)}
               />
-              {enlargeImage && (
-                <Modal onClose={() => setEnlargeImage(false)}>
-                  <div className={styles["modal-image-box"]}>
-                    <img
-                      src={`${message.content}`}
-                      alt="conversation-image"
-                      className={styles["modal-img"]}
-                    />
-                  </div>
-                </Modal>
-              )}
-            </>
+            </Link>
           ) : (
-            <div>{message.content}</div>
+            <div>{content}</div>
           )}
         </div>
         <div className={styles.sendtime}>{displayTime}</div>
@@ -109,9 +86,7 @@ export default function MessageBox({ message }) {
       transition={{ duration: 1, type: "spring", stiffness: 500 }}
       whileHover={{ scale: 1.05 }}
       className={`${styles.wrapper} ${
-        authCtx.userId === message.sender
-          ? styles["your-message"]
-          : styles["others-message"]
+        senderIsYou ? styles["your-message"] : styles["others-message"]
       }`}
     >
       {messageContent}

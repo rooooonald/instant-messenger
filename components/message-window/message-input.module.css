@@ -30,7 +30,7 @@
 }
 
 .time-input {
-  width: 200px;
+  width: auto;
   margin-left: auto;
 
   display: flex;
@@ -43,6 +43,10 @@
   width: 80px;
   padding-left: 5px;
   border-radius: 10px;
+}
+
+.time-input p {
+  color: var(--third-color);
 }
 
 .message-submit {
@@ -110,4 +114,8 @@
   align-items: center;
 
   background-color: var(--secondary-color);
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
 }

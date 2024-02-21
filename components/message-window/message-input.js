@@ -11,7 +11,6 @@ import { BsSendFill } from "react-icons/bs";
 import { LuTextCursorInput } from "react-icons/lu";
 import { LuImage } from "react-icons/lu";
 import { IoResizeOutline } from "react-icons/io5";
-
 import { m } from "framer-motion";
 
 export default function MessageInput({ id, onSend }) {
@@ -77,9 +76,11 @@ export default function MessageInput({ id, onSend }) {
     value: timeAllowed,
     valueChangeHandler: timeAllowedChangeHandler,
     blurHandler: timeAllowedBlurHandler,
+    valueIsValid: timeAllowedIsValid,
     hasError: timeAllowedHasError,
   } = useInput(
-    (timeAllowed) => +timeAllowed >= 5 || timeAllowed.trim().length === 0
+    (timeAllowed) => +timeAllowed >= 5 || timeAllowed.trim().length === 0,
+    10
   );
 
   const authCtx = useContext(AuthContext);
@@ -154,10 +155,10 @@ export default function MessageInput({ id, onSend }) {
             value={timeAllowed}
             onChange={timeAllowedChangeHandler}
             onBlur={timeAllowedBlurHandler}
-            placeholder="10"
             min={5}
           ></input>
           <span>s</span>
+          {timeAllowedHasError && <p>(Min. 5s)</p>}
         </div>
       </div>
       <div className={styles["message-submit"]}>
@@ -225,13 +226,9 @@ export default function MessageInput({ id, onSend }) {
           whileHover={{ backgroundColor: "var(--fourth-color)" }}
           className={styles["submit-btn"]}
           onClick={clickHandler}
-          disabled={timeAllowedHasError}
+          disabled={!timeAllowedIsValid}
         >
-          {timeAllowedHasError ? (
-            "Invalid Time (Min. 5s)"
-          ) : (
-            <BsSendFill style={{ fontSize: "1.25rem" }} />
-          )}
+          <BsSendFill style={{ fontSize: "1.25rem" }} />
         </m.button>
       </div>
     </m.div>
