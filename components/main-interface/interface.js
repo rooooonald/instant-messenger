@@ -110,7 +110,7 @@ export default function MessengerInterface() {
         messages: [],
         lastUpdate: Date.now(),
       });
-      console.log("Document written with ID: ", docRef.id);
+
       setCurrConversationId(docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);

@@ -167,7 +167,7 @@ export default function SignIn() {
                 className={styles["test-acc-button"]}
                 onClick={() => setShowTestAccModal(true)}
               >
-                Trial
+                Trial Accounts
               </m.button>
 
               <m.button

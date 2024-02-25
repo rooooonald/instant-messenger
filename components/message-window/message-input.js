@@ -8,8 +8,7 @@ import Modal from "../ui/modal";
 
 import styles from "./message-input.module.css";
 import { BsSendFill } from "react-icons/bs";
-import { LuTextCursorInput } from "react-icons/lu";
-import { LuImage } from "react-icons/lu";
+import { LuTextCursorInput, LuImage } from "react-icons/lu";
 import { IoResizeOutline } from "react-icons/io5";
 import { AnimatePresence, m } from "framer-motion";
 
