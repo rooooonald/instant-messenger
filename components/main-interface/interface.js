@@ -23,7 +23,7 @@ import { db, storage } from "@/lib/firebase";
 import { AuthContext } from "@/store/auth-context";
 import { NotificationContext } from "@/store/notification-context";
 
-import ConversationList from "../conversation-list/conversation-list";
+import ConversationPanel from "../conversation-list/conversation-panel";
 import MessageWindow from "../message-window/message-window";
 import WelcomeScreen from "../message-window/welcome-screen";
 import Notification from "../ui/notification";
@@ -111,6 +111,7 @@ export default function MessengerInterface() {
         lastUpdate: Date.now(),
       });
       console.log("Document written with ID: ", docRef.id);
+      setCurrConversationId(docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -162,7 +163,7 @@ export default function MessengerInterface() {
       <div className={styles.wrapper}>
         <div className={styles.conversation}>
           {conversationList && (
-            <ConversationList
+            <ConversationPanel
               list={conversationList}
               activeId={currConversationId}
               onSelectConversation={selectConversationHandler}
@@ -172,7 +173,9 @@ export default function MessengerInterface() {
         </div>
 
         <div className={styles.message}>
-          {!selectedConversation && <WelcomeScreen />}
+          {!selectedConversation && (
+            <WelcomeScreen onAddConversation={addConversationHandler} />
+          )}
           {selectedConversation && (
             <MessageWindow
               conversation={selectedConversation}
