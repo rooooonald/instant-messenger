@@ -1,6 +1,5 @@
 .wrapper {
-  min-height: 100px;
-  padding: 0 20px;
+  min-height: 75px;
   margin: 20px;
 
   display: flex;
@@ -8,18 +7,16 @@
   align-items: center;
 
   background-color: transparent;
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+  border-bottom: 1px white solid;
 }
 
 .change-username-input {
-  width: 80%;
-  margin-right: 10px;
-  padding-left: 10px;
+  width: calc(100% - 100px);
 }
 
 .btn-group {
+  width: 75px;
   display: flex;
 }
 
@@ -36,7 +33,26 @@
 }
 
 .username {
+  width: calc(100% - 75px);
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
   font-size: 1rem;
-  margin-right: 10px;
   cursor: pointer;
+}
+
+.username p {
+  width: 100%;
+}
+
+.username p:nth-child(2) {
+  width: 90%;
+
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

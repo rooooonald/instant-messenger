@@ -6,8 +6,8 @@ import { m } from "framer-motion";
 const ModalContent = ({ content }) => {
   return (
     <m.div
-      initial={{ opacity: 0, x: "-50%", y: "-40%", borderRadius: 0 }}
-      animate={{ opacity: 1, x: "-50%", y: "-50%", borderRadius: "50px" }}
+      initial={{ opacity: 0, x: "-50%", y: "-40%" }}
+      animate={{ opacity: 1, x: "-50%", y: "-50%" }}
       exit={{
         opacity: 0,
         x: "-50%",
@@ -25,7 +25,15 @@ const ModalContent = ({ content }) => {
 };
 
 const Backdrop = ({ onClose }) => {
-  return <div className={styles.backdrop} onClick={onClose}></div>;
+  return (
+    <m.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className={styles.backdrop}
+      onClick={onClose}
+    ></m.div>
+  );
 };
 
 export default function Modal({ children, onClose }) {

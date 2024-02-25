@@ -1,17 +1,38 @@
 .wrapper {
-  display: flex;
+  width: 100%;
+  max-width: 1200px;
   height: 100vh;
+  margin: auto;
+
+  display: flex;
 }
 
 .conversation {
-  flex: 3;
+  width: 300px;
   height: 100%;
   animation: fadeIn 1s forwards normal ease;
 }
 
 .message {
-  flex: 7;
+  width: calc(100% - 300px);
   height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    height: calc(100vh - 50px);
+  }
+
+  .conversation {
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+  }
+
+  .message {
+    width: 100%;
+  }
 }
 
 @keyframes fadeIn {

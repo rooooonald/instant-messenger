@@ -1,0 +1,34 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(30px);
+
+  z-index: 50;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  overflow: hidden;
+  z-index: 51;
+}
+
+.content > button {
+  width: auto;
+  height: auto;
+
+  position: absolute;
+  top: 5px;
+  right: 0;
+
+  background-color: transparent;
+}

@@ -10,8 +10,7 @@ import { AuthContext } from "@/store/auth-context";
 
 import styles from "./register-form.module.css";
 import { m } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBomb } from "@fortawesome/free-solid-svg-icons";
+import { FaBomb } from "react-icons/fa";
 
 export default function RegisterForm({
   onClose,
@@ -21,15 +20,21 @@ export default function RegisterForm({
   const router = useRouter();
 
   const [isExpired, setIsExpired] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsExpired(true), 3000);
-
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (errorMsg) {
+      const timer = setTimeout(() => setErrorMsg(""), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMsg]);
 
   const {
     value: email,
@@ -85,15 +90,15 @@ export default function RegisterForm({
 
         console.log(errorMessage);
         if (errorCode === "auth/email-already-in-use") {
-          setErrorMsg("❌ Error: Email is registered already! ❌");
+          setErrorMsg("⚠️ Email is registered already");
         }
 
         if (errorCode === "auth/invalid-email") {
-          setErrorMsg("❌ Error: Invalid Email! ❌");
+          setErrorMsg("⚠️ Invalid Email");
         }
 
         if (errorCode === "auth/weak-password") {
-          setErrorMsg("❌ Error: Password is not strong enough! ❌");
+          setErrorMsg("⚠️ Password is not strong enough");
         }
       });
   };
@@ -134,7 +139,7 @@ export default function RegisterForm({
           >
             {isExpired ? (
               <div className={styles.expired}>
-                <FontAwesomeIcon icon={faBomb} /> <span>Forgotten</span>
+                <FaBomb /> <span>Forgotten</span>
               </div>
             ) : (
               "Let's Chat! 🥳"
@@ -147,15 +152,13 @@ export default function RegisterForm({
             }}
             className={` ${styles.message3}  ${styles.message}`}
           >
-            {errorMsg ? errorMsg : "That's good for gossiping 💩"}
+            That's good for gossiping 💩
           </m.div>
         </m.div>
       </div>
       <form className={styles.form} onSubmit={registerHandler}>
-        <div className={styles["input-block"]}>
-          <label htmlFor="register-email">
-            {emailHasError && <span>Invalid </span>} Email
-          </label>
+        <div className={styles["input-group"]}>
+          <label htmlFor="register-email">Email</label>
           <m.input
             whileFocus={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 500 }}
@@ -165,11 +168,20 @@ export default function RegisterForm({
             onChange={emailChangeHandler}
             onBlur={emailBlurHandler}
           />
+          {emailHasError && (
+            <m.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ type: "spring", transition: 0.3 }}
+              className={styles.error}
+            >
+              ⚠️ Invalid Email
+            </m.div>
+          )}
         </div>
-        <div className={styles["input-block"]}>
-          <label htmlFor="register-password">
-            {passwordHasError && <span>Invalid</span>} Password
-          </label>
+        <div className={styles["input-group"]}>
+          <label htmlFor="register-password">Password</label>
           <m.input
             whileFocus={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 500 }}
@@ -179,11 +191,20 @@ export default function RegisterForm({
             onChange={passwordChangeHandler}
             onBlur={passwordBlurHandler}
           />
+          {passwordHasError && (
+            <m.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ type: "spring", transition: 0.3 }}
+              className={styles.error}
+            >
+              ⚠️ Invalid Password
+            </m.div>
+          )}
         </div>
-        <div className={styles["input-block"]}>
-          <label htmlFor="register-username">
-            {usernameHasError && <span>Invalid </span>} Username
-          </label>
+        <div className={styles["input-group"]}>
+          <label htmlFor="register-username">Username</label>
           <m.input
             whileFocus={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 500 }}
@@ -193,16 +214,24 @@ export default function RegisterForm({
             onChange={usernameChangeHandler}
             onBlur={usernameBlurHandler}
           />
+          {usernameHasError && (
+            <m.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ type: "spring", transition: 0.3 }}
+              className={styles.error}
+            >
+              ⚠️ Invalid Username
+            </m.div>
+          )}
         </div>
         <m.button
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 500 }}
-          className={`${styles["submit-button"]} ${
-            !formIsValid ? styles.disabled : ""
-          }`}
           disabled={!formIsValid}
         >
-          Register
+          {!errorMsg ? "Register" : errorMsg}
         </m.button>
       </form>
     </div>

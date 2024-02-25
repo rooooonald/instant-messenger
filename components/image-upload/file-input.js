@@ -31,7 +31,8 @@ export default function FileInput({ onImageSelected }) {
       />
 
       <m.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.9 }}
         className={styles.button}
         onClick={onChooseImg}
       >

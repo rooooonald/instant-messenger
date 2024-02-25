@@ -19,6 +19,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={urbanist.className}>
         <ContextWrapper>{children}</ContextWrapper>
+        <div id="mobile-nav"></div>
         <div id="backdrop"></div>
         <div id="notification"></div>
       </body>

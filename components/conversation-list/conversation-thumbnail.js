@@ -13,7 +13,7 @@ export default function ConversationThumbnail({
   lastMessage,
   activeId,
   title,
-  backgroundColorIndex,
+  onCloseMobileNav,
 }) {
   const [isActive, setIsActive] = useState(false);
   const [senderUsername, setSenderUsername] = useState("");
@@ -54,25 +54,17 @@ export default function ConversationThumbnail({
 
   const clickHandler = (id) => {
     onSelectConversation(id);
+    onCloseMobileNav && onCloseMobileNav();
   };
-
-  const colors = [
-    "linear-gradient(180deg, rgba(238,119,82,1) 30%, rgba(238,119,82,0.3) 100%)",
-    "linear-gradient(180deg, rgba(122,0,252,1) 30%, rgba(122,0,252,0.3) 100%)",
-    "linear-gradient(180deg, rgba(231,60,126,1) 30%, rgba(231,60,126,0.3) 100%)",
-    "linear-gradient(180deg, rgba(35,166,213,1) 30%, rgba(35,166,213,0.3) 100%)",
-    "linear-gradient(180deg, rgba(35,213,171,1) 30%, rgba(35,213,171,0.3) 100%)",
-  ];
 
   return (
     <m.div
       whileHover={{
         x: 20,
-        scale: 1.1,
       }}
       transition={{ duration: 0.5, type: "spring" }}
-      className={styles.wrapper}
-      style={{ background: colors[backgroundColorIndex % colors.length] }}
+      className={`${styles.wrapper} gradient-bg`}
+      style={{ opacity: isActive ? 1 : 0.5 }}
       onClick={() => clickHandler(id)}
     >
       <div className={styles.conversation}>

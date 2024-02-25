@@ -93,13 +93,13 @@ export default function MessengerInterface() {
     }
   }, [authCtx, notificationCtx.addNotification]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      notificationCtx.removeNotification();
-    }, 3000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     notificationCtx.removeNotification();
+  //   }, 3000);
 
-    return () => clearTimeout(timer);
-  }, [notification]);
+  //   return () => clearTimeout(timer);
+  // }, [notification]);
 
   // Adding new conversation
 
@@ -183,7 +183,7 @@ export default function MessengerInterface() {
         <AnimatePresence>
           {notification &&
             notification.id !== currConversationId &&
-            notification.sender !== authCtx.userEmail && (
+            notification.sender !== authCtx.userId && (
               <Notification
                 title={notification.title}
                 sender={notification.sender}

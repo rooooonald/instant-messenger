@@ -1,14 +1,22 @@
 .wrapper {
   width: 700px;
-  height: 100%;
+  height: 70vh;
+  min-height: 500px;
+
   display: flex;
 
-  overflow-y: scroll;
+  border-radius: 1rem;
+
+  overflow: scroll;
 }
 
 .intro {
   width: 400px;
   padding: 20px;
+}
+
+.intro h1 {
+  margin-bottom: 1rem;
 }
 
 .message-list {
@@ -20,7 +28,7 @@
 
 .message {
   width: 70%;
-  height: 70px;
+  height: auto;
   margin-top: 10px;
   padding: 10px;
 
@@ -50,32 +58,28 @@
   gap: 10px;
 }
 
-.input-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.input-block input {
-  padding: 0 10px 0 10px;
-}
-
-.submit-button {
+.form > button {
   width: 150px;
+
+  position: absolute;
+  bottom: 30px;
+
+  background-color: var(--third-color);
 }
 
-.disabled {
+.form > button:disabled {
   opacity: 0.5;
 }
 
-.participant-input-block {
+.input-group {
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
-.participant-input-block button {
-  background-color: transparent;
+.participant-input-group {
+  display: flex;
+  gap: 5px;
 }
 
 .participant-panel {
@@ -85,16 +89,25 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 10px;
+
+  background-color: var(--fifth-color);
+}
+
+.participant-panel h2 {
+  width: 100%;
+
+  color: var(--third-color);
 }
 
 .participant-list {
-  overflow-y: scroll;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
   gap: 5px;
+
+  overflow-y: scroll;
 }
 
 .participant-tag {
@@ -113,27 +126,70 @@
   margin: 0;
 }
 
-.participant-tag button {
-  background-color: transparent;
-}
+.participant-input-group button,
+.participant-tag > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-.submit-button {
-  width: 150px;
-  align-self: flex-end;
+  background-color: transparent;
 }
 
 @media only screen and (max-width: 768px) {
   .wrapper {
-    width: 90vw;
+    width: 500px;
+    height: auto;
+
     flex-direction: column;
+    align-items: center;
   }
 
-  .signage,
-  .right-panel {
+  .intro,
+  .participant-panel {
     width: 100%;
   }
 
+  .intro {
+    height: 400px;
+  }
+
+  .form {
+    flex-direction: row;
+  }
+
+  .form > button {
+    right: 20px;
+    bottom: calc(125px + 20px);
+  }
+
+  .participant-panel {
+    height: 125px;
+  }
+
   .participant-list {
+    height: 50px;
+
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .wrapper {
+    width: 350px;
     height: auto;
+
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro {
+    height: 500px;
+    padding-bottom: 100px;
+  }
+
+  .form {
+    flex-direction: column;
   }
 }

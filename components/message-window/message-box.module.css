@@ -42,9 +42,10 @@
 }
 
 .name {
+  margin-bottom: 5px;
+
   font-weight: 700;
   font-size: 12px;
-  margin-bottom: 5px;
   color: var(--primary-color);
 }
 
@@ -56,4 +57,10 @@
   align-items: center;
   gap: 5px;
   opacity: 0.3;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    max-width: 90%;
+  }
 }

@@ -5,8 +5,7 @@ import { AuthContext } from "@/store/auth-context";
 import Modal from "../ui/modal";
 
 import styles from "./new-conversation.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FaCircleMinus, FaPlus } from "react-icons/fa6";
 import { m } from "framer-motion";
 
 export default function NewConversation({ onAddConversation, onClose }) {
@@ -18,9 +17,12 @@ export default function NewConversation({ onAddConversation, onClose }) {
   const {
     value: title,
     hasError: titleHasError,
+    valueIsValid: titleIsValid,
     valueChangeHandler: titleChangeHandler,
     blurHandler: titleBlurHandler,
-  } = useInput((title) => title.trim().length !== 0);
+  } = useInput(
+    (title) => title.trim().length !== 0 && title.trim().length <= 20
+  );
 
   const validateParticipantInput = (participant) => {
     return (
@@ -56,7 +58,7 @@ export default function NewConversation({ onAddConversation, onClose }) {
 
   function submitHandler() {
     if (participantList.length < 1) {
-      setErrorMsg("❌ Please add at least one participant! ❌");
+      setErrorMsg("⚠️ Please add at least one participant");
       return;
     }
     onAddConversation({
@@ -106,10 +108,8 @@ export default function NewConversation({ onAddConversation, onClose }) {
                 : "Please make sure your friend's email is also registered. 🤭"}
             </m.div>
             <form className={styles.form} onSubmit={submitHandler}>
-              <div className={styles["input-block"]}>
-                <label htmlFor="title">
-                  {titleHasError && <span>Invalid</span>} Group Name
-                </label>
+              <div className={styles["input-group"]}>
+                <label htmlFor="title">Group Name</label>
                 <m.input
                   whileFocus={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 500 }}
@@ -118,14 +118,23 @@ export default function NewConversation({ onAddConversation, onClose }) {
                   value={title}
                   onChange={titleChangeHandler}
                   onBlur={titleBlurHandler}
+                  placeholder="Max. 20 Characters"
                 />
+                {titleHasError && (
+                  <m.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    transition={{ type: "spring", transition: 0.3 }}
+                    className={styles.error}
+                  >
+                    ⚠️ Invalid Group Name
+                  </m.div>
+                )}
               </div>
-              <div className={styles["input-block"]}>
-                <label htmlFor="title">
-                  {participantHasError && <span>Invalid</span>} Participant's
-                  Email
-                </label>
-                <div className={styles["participant-input-block"]}>
+              <div className={styles["input-group"]}>
+                <label htmlFor="title">Participant's Email</label>
+                <div className={styles["participant-input-group"]}>
                   <m.input
                     whileFocus={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 500 }}
@@ -140,18 +149,39 @@ export default function NewConversation({ onAddConversation, onClose }) {
                     whileHover={{
                       rotate: 360,
                     }}
-                    transition={{ duration: 1, type: "spring" }}
+                    transition={{ duration: 0.5, type: "spring" }}
                     type="button"
                     onClick={addParticipantHandler}
                   >
-                    <FontAwesomeIcon icon={faPlus} size="xl" />
+                    <FaPlus style={{ fontSize: "1.25rem" }} />
                   </m.button>
                 </div>
+                {participantHasError && (
+                  <m.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    transition={{ type: "spring", transition: 0.3 }}
+                    className={styles.error}
+                  >
+                    ⚠️ Invalid Email
+                  </m.div>
+                )}
               </div>
+              <m.button
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 500 }}
+                type="button"
+                onClick={submitHandler}
+                disabled={participantList.length < 1 || !titleIsValid}
+              >
+                Submit
+              </m.button>
             </form>
           </m.div>
         </div>
         <div className={styles["participant-panel"]}>
+          <h2>Participant List ({participantList.length})</h2>
           <div className={styles["participant-list"]}>
             {participantList &&
               participantList.map((participant) => {
@@ -162,23 +192,12 @@ export default function NewConversation({ onAddConversation, onClose }) {
                       type="button"
                       onClick={() => removeHandler(participant)}
                     >
-                      <FontAwesomeIcon icon={faCircleMinus} />
+                      <FaCircleMinus />
                     </button>
                   </div>
                 );
               })}
           </div>
-          <m.button
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 500 }}
-            onClick={submitHandler}
-            className={`${styles["submit-button"]} ${
-              participantList.length < 1 ? styles.disabled : ""
-            }`}
-            disabled={participantList.length < 1}
-          >
-            Submit
-          </m.button>
         </div>
       </div>
     </Modal>

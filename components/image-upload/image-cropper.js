@@ -2,6 +2,7 @@ import { useState } from "react";
 import Cropper from "react-easy-crop";
 
 import styles from "./image-cropper.module.css";
+import { m } from "framer-motion";
 
 export default function ImageCropper({ image, onCropDone, onCropCancel }) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -16,6 +17,16 @@ export default function ImageCropper({ image, onCropDone, onCropCancel }) {
   const onAspectRatioChange = (event) => {
     setAspectRatio(event.target.value);
   };
+
+  const aspectRatios = [
+    { value: 1 / 1, text: "1:1" },
+    { value: 5 / 4, text: "5:4" },
+    { value: 4 / 3, text: "4:3" },
+    { value: 3 / 2, text: "3:2" },
+    { value: 5 / 3, text: "5:3" },
+    { value: 16 / 9, text: "16:9" },
+    { value: 3 / 1, text: "3:1" },
+  ];
 
   return (
     <div className={styles.wrapper}>
@@ -39,27 +50,35 @@ export default function ImageCropper({ image, onCropDone, onCropCancel }) {
       </div>
       <div className={styles["action-btns"]}>
         <div className={styles["aspect-ratios"]} onChange={onAspectRatioChange}>
-          <input type="radio" value={1 / 1} name="ratio" /> 1:1
-          <input type="radio" value={5 / 4} name="ratio" /> 5:4
-          <input type="radio" value={4 / 3} name="ratio" /> 4:3
-          <input type="radio" value={3 / 2} name="ratio" /> 3:2
-          <input type="radio" value={5 / 3} name="ratio" /> 5:3
-          <input type="radio" value={16 / 9} name="ratio" /> 16:9
-          <input type="radio" value={3 / 1} name="ratio" /> 3:1
+          {aspectRatios.map((ratio) => (
+            <div>
+              <input type="radio" value={ratio.value} name="ratio" />{" "}
+              {ratio.text}
+            </div>
+          ))}
         </div>
         <div className={styles.buttons}>
-          <button className={styles.button} onClick={onCropCancel}>
+          <m.button
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 500 }}
+            type="button"
+            className={styles.button}
+            onClick={onCropCancel}
+          >
             Cancel
-          </button>
+          </m.button>
 
-          <button
+          <m.button
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 500 }}
+            type="button"
             className={styles.button}
             onClick={() => {
               onCropDone(croppedArea);
             }}
           >
             Done
-          </button>
+          </m.button>
         </div>
       </div>
     </div>

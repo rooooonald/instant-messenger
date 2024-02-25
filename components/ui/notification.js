@@ -18,18 +18,6 @@ export default function Notification({
   const [senderUsername, setSenderUsername] = useState("");
 
   useEffect(() => {
-    // const extractUsername = async () => {
-    //   const q = query(collection(db, "users"), where("email", "==", sender));
-
-    //   const querySnapshot = await getDocs(q);
-    //   querySnapshot.forEach((doc) => {
-    //     const foundUser = doc.data();
-    //     setSenderUsername(foundUser.username);
-    //   });
-    // };
-
-    // extractUsername();
-
     onSnapshot(doc(db, "users", sender), (userDoc) => {
       const foundUser = userDoc.data();
       setSenderUsername(foundUser.username);

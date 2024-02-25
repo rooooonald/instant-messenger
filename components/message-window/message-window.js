@@ -6,8 +6,7 @@ import Modal from "../ui/modal";
 import ConversationParticipantList from "./conversation-participants";
 
 import styles from "./message-window.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { FaUsers } from "react-icons/fa";
 import { AnimatePresence, m } from "framer-motion";
 
 export default function MessageWindow({ conversation, onSend }) {
@@ -23,20 +22,18 @@ export default function MessageWindow({ conversation, onSend }) {
       <div className={styles["title-container"]}>
         <m.p
           key={conversation.title}
-          initial={{ x: 40, y: -200, rotate: 90 }}
-          animate={{ x: 40, y: 0, rotate: 90 }}
+          initial={{ x: 50, y: -200, rotate: 90 }}
+          animate={{ x: 50, y: 0, rotate: 90 }}
           className={styles.title}
         >
           {conversation.title}
         </m.p>
-        <div className={styles["participants-list-btn"]}>
-          <FontAwesomeIcon
-            icon={faUsers}
-            size="xl"
-            style={{ position: "absolute", bottom: "20px", cursor: "pointer" }}
-            onClick={showParticipantListHandler}
-          />
-        </div>
+        <button
+          className={styles["participants-list-btn"]}
+          onClick={showParticipantListHandler}
+        >
+          <FaUsers style={{ fontSize: "1.5rem" }} />
+        </button>
       </div>
       <m.div
         variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}

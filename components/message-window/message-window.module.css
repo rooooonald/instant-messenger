@@ -4,13 +4,14 @@
 
   display: flex;
   justify-content: space-between;
+
+  overflow: hidden;
 }
 
 .message-window {
   width: calc(100% - 32px);
   height: 100%;
   margin-left: 20px;
-  padding: 0 0 1rem 0;
 
   display: flex;
   flex-direction: column;
@@ -18,7 +19,7 @@
 }
 
 .title-container {
-  width: 32px;
+  min-width: 50px;
   position: relative;
 }
 
@@ -34,10 +35,15 @@
   -webkit-text-fill-color: transparent;
 }
 
-.participants-list-btn svg {
+.participants-list-btn {
+  position: absolute;
+  left: 10px;
+  bottom: 20px;
+  cursor: pointer;
+  background-color: transparent;
   transition: transform 0.5s;
 }
 
-.participants-list-btn svg:hover {
+.participants-list-btn:hover {
   transform: scale(1.2);
 }

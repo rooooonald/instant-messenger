@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import useInput from "@/hook/use-input";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { AuthContext } from "@/store/auth-context";
 
 import { db, auth } from "@/lib/firebase";
@@ -10,11 +10,7 @@ import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 import NewConversation from "./new-conversation";
 
 import styles from "./conversation-nav.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faRightFromBracket,
-  faCommentMedical,
-} from "@fortawesome/free-solid-svg-icons";
+import { FaRightFromBracket, FaCommentMedical } from "react-icons/fa6";
 import { AnimatePresence, m } from "framer-motion";
 
 export default function ConversationNav({ onAddConversation }) {
@@ -23,8 +19,6 @@ export default function ConversationNav({ onAddConversation }) {
   const [showChangeUsernameInstruction, setShowChangeUsernameInstruction] =
     useState(false);
   const [currentUsername, setCurrentUsername] = useState(null);
-
-  const router = useRouter();
 
   const authCtx = useContext(AuthContext);
 
@@ -46,10 +40,6 @@ export default function ConversationNav({ onAddConversation }) {
     (username) => username.trim().length !== 0,
     currentUsername ? currentUsername : authCtx.username
   );
-
-  const showModalHandler = () => {
-    setShowNewConvoModal((prev) => !prev);
-  };
 
   const signOutHandler = () => {
     signOut(auth)
@@ -85,14 +75,7 @@ export default function ConversationNav({ onAddConversation }) {
   };
 
   return (
-    <m.div
-      whileHover={{
-        x: 10,
-        // scale: 1.05,
-      }}
-      transition={{ duration: 0.5 }}
-      className={styles.wrapper}
-    >
+    <div className={styles.wrapper}>
       {isChangingUsername ? (
         <m.input
           whileFocus={{ scale: 1.05 }}
@@ -109,34 +92,38 @@ export default function ConversationNav({ onAddConversation }) {
           onKeyDown={keyDownHandler}
         />
       ) : (
-        <h1
+        <div
           className={styles.username}
           onClick={() => setIsChangingUsername(true)}
           onMouseOver={() => setShowChangeUsernameInstruction(true)}
           onMouseOut={() => setShowChangeUsernameInstruction(false)}
         >
-          {showChangeUsernameInstruction
-            ? "Click to change username"
-            : `Welcome, ${currentUsername}!`}
-        </h1>
+          {showChangeUsernameInstruction ? (
+            <p>Click to change username</p>
+          ) : (
+            <>
+              <p>Welcome</p> <p>{currentUsername}</p>
+            </>
+          )}
+        </div>
       )}
 
       <div className={styles["btn-group"]}>
         <button onClick={signOutHandler}>
-          <FontAwesomeIcon icon={faRightFromBracket} size="xl" />
+          <FaRightFromBracket style={{ fontSize: "1.25rem" }} />
         </button>
-        <button onClick={showModalHandler}>
-          <FontAwesomeIcon icon={faCommentMedical} size="xl" />
+        <button onClick={() => setShowNewConvoModal(true)}>
+          <FaCommentMedical style={{ fontSize: "1.25rem" }} />
         </button>
       </div>
       <AnimatePresence>
         {showNewConvoModal && (
           <NewConversation
             onAddConversation={onAddConversation}
-            onClose={showModalHandler}
+            onClose={() => setShowNewConvoModal(false)}
           />
         )}
       </AnimatePresence>
-    </m.div>
+    </div>
   );
 }

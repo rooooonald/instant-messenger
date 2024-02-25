@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useInput from "@/hook/use-input";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -39,6 +39,13 @@ export default function SignIn() {
     blurHandler: passwordBlurHandler,
   } = useInput((value) => value.trim().length !== 0);
 
+  useEffect(() => {
+    if (errorMsg) {
+      const timer = setTimeout(() => setErrorMsg(""), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMsg]);
+
   const signInHandler = () => {
     if (emailHasError || passwordHasError) {
       return;
@@ -48,15 +55,15 @@ export default function SignIn() {
       const errorCode = error.code;
       console.log(error);
       if (errorCode === "auth/invalid-credential") {
-        setErrorMsg("⚠️ Incorrect Email/Password ... What's wrong with you?");
+        setErrorMsg("⚠️ Incorrect Email/Password");
       }
 
       if (errorCode === "auth/invalid-email") {
-        setErrorMsg("⚠️ Invalid Email! What's wrong with you?");
+        setErrorMsg("⚠️ Invalid Email");
       }
 
       if (errorCode === "auth/missing-password") {
-        setErrorMsg("⚠️ Missing Password! What's wrong with you?");
+        setErrorMsg("⚠️ Missing Password");
       }
     });
   };
@@ -76,31 +83,34 @@ export default function SignIn() {
           transition={{ duration: 0.5 }}
           className={styles.top}
         >
-          <p className={styles["decorative-text"]}>{decorativeText}</p>
+          <p className={`${styles["decorative-text"]} gradient-bg`}>
+            {decorativeText}
+          </p>
         </m.div>
         <div className={styles["signin-body"]}>
-          <Image src={"/logo-home.svg"} alt="Logo" width={200} height={200} />
-          {errorMsg ? (
-            <h1>{errorMsg}</h1>
-          ) : (
-            <h1>WHAT'S SAID HERE, FORGOTTEN HERE</h1>
-          )}
-
-          <div className={styles["signin-form"]}>
-            <div className={styles["input-block"]}>
+          <form className={styles["signin-form"]}>
+            <Image
+              src={"/logo-home.svg"}
+              alt="Logo"
+              width={150}
+              height={150}
+              className={styles["shown-in-mobile"]}
+              style={{ margin: "0 auto" }}
+            />
+            <h1>FORGOTTEN MESSENGER</h1>
+            <div className={styles["input-section"]}>
               <div className={styles["input-group"]}>
-                <div>
-                  <label htmlFor="email">Email</label>
-                  <m.input
-                    whileFocus={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 500 }}
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={emailChangeHandler}
-                    onBlur={emailBlurHandler}
-                  />
-                </div>
+                <label htmlFor="email">Email</label>
+                <m.input
+                  whileFocus={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 500 }}
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={emailChangeHandler}
+                  onBlur={emailBlurHandler}
+                />
+
                 {emailHasError && (
                   <m.div
                     initial={{ opacity: 0, scale: 0.5 }}
@@ -114,18 +124,17 @@ export default function SignIn() {
                 )}
               </div>
               <div className={styles["input-group"]}>
-                <div>
-                  <label htmlFor="password">Password</label>
-                  <m.input
-                    whileFocus={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 500 }}
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={passwordChangeHandler}
-                    onBlur={passwordBlurHandler}
-                  />
-                </div>
+                <label htmlFor="password">Password</label>
+                <m.input
+                  whileFocus={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 500 }}
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={passwordChangeHandler}
+                  onBlur={passwordBlurHandler}
+                />
+
                 {passwordHasError && (
                   <m.div
                     initial={{ opacity: 0, scale: 0.5 }}
@@ -139,76 +148,94 @@ export default function SignIn() {
                 )}
               </div>
             </div>
-            <div className={styles["btn-group"]}>
+            <div className={styles["button-group"]}>
               <m.button
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 500 }}
-                className={`${styles["signin-button"]} ${
-                  !formIsValid ? styles.disabled : ""
-                }`}
+                type="button"
+                className={styles["signin-button"]}
                 onClick={signInHandler}
                 disabled={!formIsValid}
               >
-                Sign In
+                {!errorMsg ? "Sign In" : errorMsg}
               </m.button>
+
               <m.button
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 500 }}
-                className={styles["register-button"]}
+                type="button"
+                className={styles["test-acc-button"]}
+                onClick={() => setShowTestAccModal(true)}
+              >
+                Trial
+              </m.button>
+
+              <m.button
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 500 }}
+                className={`${styles["register-button"]} ${styles["shown-in-mobile"]}`}
+                type="button"
                 onClick={() => setShowRegisterModal(true)}
               >
                 Register
               </m.button>
-              <m.button
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 500 }}
-                className={styles["test-acc-button"]}
-                onClick={() => setShowTestAccModal(true)}
-              >
-                Trial Accounts
-              </m.button>
             </div>
-          </div>
+          </form>
 
-          <AnimatePresence>
-            {showRegisterModal && (
-              <Modal
+          <div className={styles["registration-panel"]}>
+            <Image src={"/logo-home.svg"} alt="Logo" width={150} height={150} />
+            <h2>WHAT'S SAID HERE, FORGOTTEN HERE</h2>
+            <m.button
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 500 }}
+              className={styles["register-button"]}
+              onClick={() => setShowRegisterModal(true)}
+            >
+              Register
+            </m.button>
+          </div>
+          <m.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5 }}
+            className={styles.bottom}
+          >
+            <p className={`${styles["decorative-text"]} gradient-bg`}>
+              {decorativeText}
+            </p>
+          </m.div>
+        </div>
+
+        <AnimatePresence>
+          {showRegisterModal && (
+            <Modal
+              onClose={() => {
+                setShowRegisterModal(false);
+              }}
+            >
+              <RegisterForm
                 onClose={() => {
                   setShowRegisterModal(false);
                 }}
-              >
-                <RegisterForm
-                  onClose={() => {
-                    setShowRegisterModal(false);
-                  }}
-                  inputtedEmail={email}
-                  inputtedPassword={password}
-                />
-              </Modal>
-            )}
-            {showTestAccModal && (
-              <Modal
+                inputtedEmail={email}
+                inputtedPassword={password}
+              />
+            </Modal>
+          )}
+          {showTestAccModal && (
+            <Modal
+              onClose={() => {
+                setShowTestAccModal(false);
+              }}
+            >
+              <TestAccInfo
                 onClose={() => {
                   setShowTestAccModal(false);
                 }}
-              >
-                <TestAccInfo
-                  onClose={() => {
-                    setShowTestAccModal(false);
-                  }}
-                />
-              </Modal>
-            )}
-          </AnimatePresence>
-        </div>
-        <m.div
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.5 }}
-          className={styles.bottom}
-        >
-          <p className={styles["decorative-text"]}>{decorativeText}</p>
-        </m.div>
+              />
+            </Modal>
+          )}
+        </AnimatePresence>
       </div>
     </LazyMotion>
   );

@@ -5,6 +5,7 @@
   --fourth-color: #23a6d5;
   --fifth-color: #fff;
   --sixth-color: #23d5ab;
+  --seventh-color: #ccff00;
   --error-color: #d77fa1;
 }
 
@@ -13,18 +14,31 @@
 }
 
 body {
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  color: var(--fifth-color);
+  font-size: 1rem;
+  /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
+  background: linear-gradient(
+    171deg,
+    rgba(16, 30, 49, 1) 41%,
+    rgba(116, 40, 89, 1) 69%,
+    rgba(234, 51, 136, 1) 100%
+  );
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
 
-  height: 100vh;
-  color: var(--fifth-color);
-  font-size: 1rem;
-  margin: 0;
-  padding: 0;
   overflow: hidden;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 p {
   margin: 0;
   padding: 0;
@@ -46,8 +60,13 @@ button:hover {
   cursor: pointer;
 }
 
+label {
+  font-size: 0.8rem;
+}
+
 input {
   height: 30px;
+  padding: 0 10px;
   border-radius: 15px;
 }
 
@@ -72,6 +91,12 @@ li {
   margin: 0;
   padding: 0;
   list-style-type: none;
+}
+
+.gradient-bg {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 }
 
 @keyframes gradient {

@@ -1,6 +1,8 @@
 .wrapper {
   width: 500px;
-  height: 100%;
+  height: auto;
+  max-height: 90vh;
+  min-height: 30vh;
   padding: 20px;
 
   display: flex;
@@ -14,9 +16,16 @@
 }
 
 .wrapper h2 {
-  -webkit-text-stroke: 1px;
-  -webkit-text-fill-color: transparent;
   margin: 0 0 10px 0;
+  position: absolute;
+  top: -24px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  font-size: 1.25rem;
+  color: var(--third-color);
+  opacity: 0.5;
 }
 
 .participant-list {
@@ -46,6 +55,12 @@
 @media only screen and (max-width: 768px) {
   .wrapper {
     width: 90vw;
-    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .participant-list {
+    max-height: 50vh;
+    overflow-y: scroll;
   }
 }

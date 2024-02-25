@@ -1,37 +1,57 @@
 .wrapper {
   width: 100%;
   height: 180px;
-  min-width: 500px;
-  padding: 1rem;
+
+  padding: 20px;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-
-  border-radius: 10px 0 0 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-
-  overflow: hidden;
 }
 
-.mode-select-buttons {
+.message-controls {
+  height: 40px;
+
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   background-color: transparent;
 }
 
-.mode-select-buttons button {
-  background-color: transparent;
+.message-controls button {
+  width: 40px;
+  height: 30px;
+  padding-top: 5px;
+
+  align-self: flex-end;
+  display: flex;
+  justify-content: center;
+
+  border-radius: 5px 5px 0 0;
+  opacity: 0.5;
+
+  transition: height 0.5s;
 }
 
-.mode-select-buttons button:hover {
+.message-controls button:hover {
+  height: 40px;
+}
+
+.message-controls button.active {
+  opacity: 1;
+}
+
+.message-controls button:nth-child(1) {
   background-color: var(--primary-color);
+}
+
+.message-controls button:nth-child(2) {
+  background-color: var(--third-color);
 }
 
 .time-input {
   width: auto;
   margin-left: auto;
+
+  position: relative;
 
   display: flex;
   gap: 5px;
@@ -45,11 +65,33 @@
   border-radius: 10px;
 }
 
-.time-input p {
-  color: var(--third-color);
+.time-input-error {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: -30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--seventh-color);
+  color: var(--secondary-color);
+  border-radius: 50%;
 }
 
-.message-submit {
+.time-input-error > p {
+  padding: 5px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.time-input-error > p > span {
+  font-size: 1.25rem;
+}
+
+.message-input {
   width: 100%;
   height: 100px;
 
@@ -63,11 +105,10 @@
   padding: 10px;
 
   resize: none;
-  background-color: transparent;
+  background-color: var(--primary-color);
   color: var(--fifth-color);
-  border: 1px solid var(--fifth-color);
 
-  border-radius: 10px;
+  border-radius: 0 10px 10px 10px;
 }
 
 .image-section {
@@ -75,16 +116,27 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+
+  background-color: var(--third-color);
+  border-radius: 0 10px 10px 10px;
+}
+
+.image-section-decorative-graphic {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 }
 
 .cropped-img {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
 
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
   z-index: 1;
 }
 
@@ -114,6 +166,7 @@
   align-items: center;
 
   background-color: var(--secondary-color);
+  z-index: 1;
 }
 
 .submit-btn:disabled {

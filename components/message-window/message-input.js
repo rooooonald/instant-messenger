@@ -11,16 +11,21 @@ import { BsSendFill } from "react-icons/bs";
 import { LuTextCursorInput } from "react-icons/lu";
 import { LuImage } from "react-icons/lu";
 import { IoResizeOutline } from "react-icons/io5";
-import { m } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 
 export default function MessageInput({ id, onSend }) {
   const [mode, setMode] = useState("text");
 
   const contentRef = useRef();
 
+  const authCtx = useContext(AuthContext);
+
   useEffect(() => {
-    onCropCancel();
-  }, [mode]);
+    if (mode === "text") {
+      onCropCancel();
+      contentRef.current.focus();
+    }
+  }, [mode, id]);
 
   // Image choosing starts //
 
@@ -78,18 +83,14 @@ export default function MessageInput({ id, onSend }) {
     blurHandler: timeAllowedBlurHandler,
     valueIsValid: timeAllowedIsValid,
     hasError: timeAllowedHasError,
-  } = useInput(
-    (timeAllowed) => +timeAllowed >= 5 || timeAllowed.trim().length === 0,
-    10
-  );
+  } = useInput((timeAllowed) => timeAllowed && +timeAllowed >= 5, 10);
 
-  const authCtx = useContext(AuthContext);
-
-  const clickHandler = (e) => {
-    e && e.preventDefault();
+  const sendHandler = (e) => {
+    e?.preventDefault();
 
     if (mode === "text") {
       const enteredMessage = contentRef.current.value;
+
       if (
         !enteredMessage ||
         enteredMessage.trim().length === 0 ||
@@ -129,55 +130,72 @@ export default function MessageInput({ id, onSend }) {
   const keyDownHandler = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
-      clickHandler();
+      sendHandler();
     }
   };
 
   return (
-    <m.div
-      initial={{ x: "100%" }}
-      animate={{ x: 0 }}
-      transition={{ type: "tween" }}
-      className={styles.wrapper}
-    >
-      <div className={styles["mode-select-buttons"]}>
-        <button onClick={() => setMode("text")}>
-          <LuTextCursorInput style={{ fontSize: "1.5rem" }} />
+    <div className={styles.wrapper}>
+      <div className={styles["message-controls"]}>
+        <button
+          onClick={() => setMode("text")}
+          className={mode === "text" ? styles.active : undefined}
+        >
+          <LuTextCursorInput style={{ fontSize: "1.25rem" }} />
         </button>
-        <button onClick={() => setMode("image")}>
-          <LuImage style={{ fontSize: "1.5rem" }} />
+        <button
+          onClick={() => setMode("image")}
+          className={mode === "image" ? styles.active : undefined}
+        >
+          <LuImage style={{ fontSize: "1.25rem" }} />
         </button>
         <div className={styles["time-input"]}>
           <label htmlFor="message-time-allowed">Forgotten in</label>
-          <input
-            id="message-time-allowed"
-            type="number"
-            value={timeAllowed}
-            onChange={timeAllowedChangeHandler}
-            onBlur={timeAllowedBlurHandler}
-            min={5}
-          ></input>
-          <span>s</span>
-          {timeAllowedHasError && <p>(Min. 5s)</p>}
+          <div>
+            <input
+              id="message-time-allowed"
+              type="number"
+              value={timeAllowed}
+              onChange={timeAllowedChangeHandler}
+              onBlur={timeAllowedBlurHandler}
+              min={5}
+            ></input>{" "}
+            <span>s</span>
+          </div>
+          <AnimatePresence>
+            {timeAllowedHasError && (
+              <m.div
+                initial={{ scale: 0, opacity: 0, rotate: 0 }}
+                animate={{ scale: 1, opacity: 1, rotate: 375 }}
+                exit={{ scale: 0, opacity: 0, rotate: 0 }}
+                className={styles["time-input-error"]}
+              >
+                <p>
+                  Min. <span>5"</span>
+                </p>
+              </m.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-      <div className={styles["message-submit"]}>
+      <div className={styles["message-input"]}>
         {mode === "text" && (
-          <m.textarea
-            initial={{ scale: 0.95 }}
-            whileFocus={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 500 }}
-            className={styles.input}
-            type="text"
+          <textarea
             id="message"
             ref={contentRef}
+            className={styles.input}
             onKeyDown={keyDownHandler}
-          ></m.textarea>
+          ></textarea>
         )}
 
         {mode === "image" && currentPage === "choose-img" && (
           <div className={styles["image-section"]}>
             <FileInput setImage={setImage} onImageSelected={onImageSelected} />
+            <img
+              src="/images/image-section.svg"
+              alt="photographer"
+              className={styles["image-section-decorative-graphic"]}
+            />
           </div>
         )}
         {mode === "image" && currentPage === "crop-img" && (
@@ -195,10 +213,10 @@ export default function MessageInput({ id, onSend }) {
 
             <div className={styles["cropped-control"]}>
               <m.button
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
+                initial={{ x: "-100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
                 transition={{ type: "tween" }}
-                whileHover={{ backgroundColor: "var(--third-color)" }}
+                whileHover={{ backgroundColor: "var(--fourth-color)" }}
                 onClick={() => {
                   setCurrentPage("crop-img");
                 }}
@@ -207,10 +225,10 @@ export default function MessageInput({ id, onSend }) {
               </m.button>
 
               <m.button
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
+                initial={{ x: "-100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
                 transition={{ type: "tween" }}
-                whileHover={{ backgroundColor: "var(--third-color)" }}
+                whileHover={{ backgroundColor: "var(--fourth-color)" }}
                 onClick={() => {
                   setCurrentPage("choose-img");
                   setImage("");
@@ -225,12 +243,12 @@ export default function MessageInput({ id, onSend }) {
         <m.button
           whileHover={{ backgroundColor: "var(--fourth-color)" }}
           className={styles["submit-btn"]}
-          onClick={clickHandler}
+          onClick={sendHandler}
           disabled={!timeAllowedIsValid}
         >
           <BsSendFill style={{ fontSize: "1.25rem" }} />
         </m.button>
       </div>
-    </m.div>
+    </div>
   );
 }

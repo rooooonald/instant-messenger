@@ -11,11 +11,6 @@
 }
 
 .modal {
-  max-width: 90%;
-  min-width: 500px;
-  height: 70%;
-  min-height: 500px;
-  padding: 10px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -26,8 +21,8 @@
   align-items: center;
 
   background-color: rgba(231, 60, 126, 0.5);
-  backdrop-filter: blur(5);
-  border-radius: 20px;
+  backdrop-filter: blur(5px);
+  border-radius: 1rem;
 
   z-index: 101;
 }
