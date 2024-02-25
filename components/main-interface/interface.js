@@ -93,13 +93,13 @@ export default function MessengerInterface() {
     }
   }, [authCtx, notificationCtx.addNotification]);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     notificationCtx.removeNotification();
-  //   }, 3000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      notificationCtx.removeNotification();
+    }, 3000);
 
-  //   return () => clearTimeout(timer);
-  // }, [notification]);
+    return () => clearTimeout(timer);
+  }, [notification]);
 
   // Adding new conversation
 
