@@ -1,8 +1,8 @@
 .wrapper {
   width: 500px;
   height: auto;
-  max-height: 90vh;
-  min-height: 30vh;
+  max-height: 90dvh;
+  min-height: 30dvh;
   padding: 20px;
 
   display: flex;
@@ -60,7 +60,7 @@
 
 @media screen and (max-width: 576px) {
   .participant-list {
-    max-height: 50vh;
+    max-height: 50dvh;
     overflow-y: scroll;
   }
 }

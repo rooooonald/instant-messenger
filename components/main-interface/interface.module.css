@@ -1,7 +1,7 @@
 .wrapper {
   width: 100%;
   max-width: 1200px;
-  height: 100vh;
+  height: 100dvh;
   margin: auto;
 
   display: flex;
@@ -20,7 +20,7 @@
 
 @media screen and (max-width: 768px) {
   .wrapper {
-    height: calc(100vh - 50px);
+    height: calc(100dvh - 50px);
   }
 
   .conversation {
