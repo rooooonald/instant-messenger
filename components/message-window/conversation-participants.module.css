@@ -2,7 +2,7 @@
   width: 500px;
   height: auto;
   max-height: 90dvh;
-  min-height: 30dvh;
+  min-height: 50dvh;
   padding: 20px;
 
   display: flex;
@@ -19,9 +19,6 @@
   margin: 0 0 10px 0;
   position: absolute;
   top: -24px;
-  left: 50%;
-
-  transform: translateX(-50%);
 
   font-size: 1.25rem;
   color: var(--third-color);
@@ -34,22 +31,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   column-gap: 10px;
-}
-
-.participant-tag {
-  width: auto;
-  height: 30px;
-  margin-top: 10px;
-  padding: 5px 10px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background-color: var(--primary-color);
-  border-radius: 15px;
-
-  cursor: default;
 }
 
 @media only screen and (max-width: 768px) {

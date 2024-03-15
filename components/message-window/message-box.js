@@ -43,7 +43,7 @@ export default function MessageBox({ message }) {
     };
 
     extractUsername();
-  }, []);
+  }, [sender]);
 
   const displayTime = new Intl.DateTimeFormat("en-CA", {
     timeStyle: "short",

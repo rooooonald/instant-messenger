@@ -50,8 +50,8 @@ export default function ImageCropper({ image, onCropDone, onCropCancel }) {
       </div>
       <div className={styles["action-btns"]}>
         <div className={styles["aspect-ratios"]} onChange={onAspectRatioChange}>
-          {aspectRatios.map((ratio) => (
-            <div>
+          {aspectRatios.map((ratio, i) => (
+            <div key={i}>
               <input type="radio" value={ratio.value} name="ratio" />{" "}
               {ratio.text}
             </div>

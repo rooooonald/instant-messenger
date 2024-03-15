@@ -4,7 +4,7 @@ import { db, auth } from "@/lib/firebase";
 import { getDoc, doc } from "firebase/firestore";
 
 export const AuthContext = createContext({
-  id: "",
+  userId: "",
   userEmail: "",
   username: "",
   status: "",

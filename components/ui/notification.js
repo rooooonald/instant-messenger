@@ -22,7 +22,7 @@ export default function Notification({
       const foundUser = userDoc.data();
       setSenderUsername(foundUser.username);
     });
-  }, []);
+  }, [sender]);
 
   return ReactDOM.createPortal(
     <m.div

@@ -1,3 +1,4 @@
+import ConversationParticipantTag from "./conversation-participant-tag";
 import styles from "./conversation-participants.module.css";
 import { m } from "framer-motion";
 
@@ -20,21 +21,12 @@ export default function ConversationParticipantList({ participants, title }) {
         animate="show"
         className={styles["participant-list"]}
       >
-        {participants.map((participant, i) => {
-          return (
-            <m.div
-              variants={{
-                hidden: { opacity: 0 },
-                show: { opacity: 1 },
-              }}
-              whileHover={{ scale: 1.05 }}
-              className={styles["participant-tag"]}
-              key={i}
-            >
-              {participant}
-            </m.div>
-          );
-        })}
+        {participants.map((participant) => (
+          <ConversationParticipantTag
+            key={participant}
+            participant={participant}
+          />
+        ))}
       </m.div>
     </div>
   );

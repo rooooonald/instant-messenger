@@ -1,0 +1,23 @@
+.wrapper {
+  width: auto;
+  margin-top: 10px;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+
+  cursor: default;
+}
+
+.wrapper p:nth-child(1) {
+  font-weight: 700;
+}
+
+.wrapper p:nth-child(2) {
+  font-size: 0.8rem;
+}

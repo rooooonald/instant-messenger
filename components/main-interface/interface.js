@@ -94,12 +94,14 @@ export default function MessengerInterface() {
   }, [authCtx, notificationCtx.addNotification]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      notificationCtx.removeNotification();
-    }, 3000);
+    if (notification) {
+      const timer = setTimeout(() => {
+        notificationCtx.removeNotification();
+      }, 3000);
 
-    return () => clearTimeout(timer);
-  }, [notification]);
+      return () => clearTimeout(timer);
+    }
+  }, [notificationCtx]);
 
   // Adding new conversation
 
