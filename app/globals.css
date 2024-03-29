@@ -110,3 +110,9 @@ li {
     background-position: 0% 50%;
   }
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent;
+}
