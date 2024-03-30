@@ -3,7 +3,7 @@
   height: 70dvh;
   min-height: 500px;
   display: flex;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   border-radius: 1rem;
 }

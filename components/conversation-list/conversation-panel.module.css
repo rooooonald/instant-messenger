@@ -7,7 +7,7 @@
 
   background-color: transparent;
   overflow-x: visible;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .mobile-nav {
